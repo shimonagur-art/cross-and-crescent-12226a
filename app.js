@@ -13,7 +13,7 @@
 //   - Route "crawl" animation (dashed during crawl, no judder)
 // ✅ Curved routes (no plugin; safe)
 // ✅ Per-route curve overrides (optional) + automatic fan-out
-// ✅ Route end-dot markers + tiny hover tooltip
+// ✅ Route end markers as small rounded squares + tiny hover tooltip
 // ==============================
 
 const periodRange = document.getElementById("periodRange");
@@ -54,14 +54,13 @@ function escapeHtml(s) {
 function initMap() {
   map = L.map("map", { scrollWheelZoom: false }).setView([41.5, 18], 4);
 
-  // ✅ Pane for route end-dots (above route lines)
+  // ✅ Pane for route end markers (above route lines)
   if (!map.getPane("routeEndsPane")) {
     map.createPane("routeEndsPane");
     map.getPane("routeEndsPane").style.zIndex = 450;
   }
 
   // ✅ Clean, label-free basemap (CARTO Light - No Labels)
-  // This removes city/place labels and keeps a quiet background.
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", {
     maxZoom: 20,
     subdomains: "abcd",
@@ -196,21 +195,24 @@ function fadeInMarker(marker, targetFillOpacity, durationMs = 450) {
   animateStyle(marker, { fillOpacity: 0, opacity: 0 }, { fillOpacity: targetFillOpacity, opacity: 1 }, durationMs);
 }
 
-// ===== Route end-dot helper =====
+// ===== Route end marker helper (small rounded square) =====
 function addRouteEndDot({ lat, lng, color, tooltipHtml }) {
-  const dot = L.circleMarker([lat, lng], {
+  const size = 11; // ✅ adjust 10–12 if needed
+
+  const dot = L.marker([lat, lng], {
     pane: "routeEndsPane",
-    radius: 3,         // ✅ much smaller than object dots
-    weight: 0,
-    opacity: 1,
-    fillColor: color,
-    fillOpacity: 1,
-    interactive: true
+    interactive: true,
+    icon: L.divIcon({
+      className: "route-end-icon",
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2],
+      html: `<span class="route-end-square" style="background:${escapeHtml(color)}"></span>`
+    })
   });
 
   dot.bindTooltip(tooltipHtml, {
     direction: "top",
-    offset: [0, -6],
+    offset: [0, -8],
     opacity: 1,
     className: "route-end-tooltip",
     sticky: false
@@ -332,7 +334,6 @@ function buildPanelHTML(obj, period) {
   const subtitle = escapeHtml(obj?.panel?.subtitle || "");
   const body = escapeHtml(obj?.panel?.body || "");
 
-  // ✅ NEW: show year/date label in panel (comes from year_lable mapping)
   const yearRaw = obj?.panel?.year ?? obj?.hover?.year ?? obj?.year ?? "";
   const year = yearRaw ? escapeHtml(yearRaw) : "";
 
@@ -362,6 +363,7 @@ function buildPanelHTML(obj, period) {
     ${year ? `<p><strong>Date:</strong> ${year}</p>` : ""}
     ${locHtml}
     ${body ? `<p>${body}</p>` : ""}
+
     ${imagesHtml}
   `;
 }
@@ -509,7 +511,7 @@ function drawForPeriod(periodIndex) {
           token
         });
 
-        // ✅ Route end-dot (tiny, same colour as route)
+        // ✅ Route end marker (small rounded square, same colour as route)
         // Optional JSON: r.endNote (very short)
         const endLabel = escapeHtml(r.toLabel || "Destination");
         const endNoteRaw = String(r.endNote || "").trim();
