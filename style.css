@@ -288,6 +288,31 @@ body {
   opacity: 0.95;
 }
 
+/* ================= Route end-dot tooltip (tiny) ================= */
+/* Leaflet tooltip has class "leaflet-tooltip" + your className "route-end-tooltip" */
+.leaflet-tooltip.route-end-tooltip {
+  padding: 6px 8px;
+  border-radius: 6px; /* small rounded square */
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #fff;
+  color: #111;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.10);
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+.routeTip__loc {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.routeTip__txt {
+  margin-top: 4px;
+  font-size: 11px;
+  opacity: 0.85;
+  max-width: 160px;
+}
+
 /* ================= Right panel image grid ================= */
 
 .panel-images {
@@ -359,6 +384,17 @@ body {
   .leaflet-tooltip.hover-tooltip img {
     max-width: 60px !important;
     max-height: 60px !important;
+  }
+
+  /* Route end-dot tooltip: even smaller on mobile */
+  .leaflet-tooltip.route-end-tooltip {
+    padding: 5px 7px;
+    font-size: 11px;
+  }
+
+  .routeTip__txt {
+    font-size: 10px;
+    max-width: 140px;
   }
 
   .panel-images {
