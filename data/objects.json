@@ -314,8 +314,8 @@
     ],
     "routes": [
       {
-        "toLat": 31.8969,
-        "toLng": 35.0004,
+        "toLat": 32,
+        "toLng": 35.00004,
         "influence": "conquest",
         "toLabel": "Jerusalem"
       }
