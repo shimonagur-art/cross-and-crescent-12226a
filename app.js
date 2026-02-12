@@ -13,6 +13,7 @@
 //   - Route "crawl" animation (dashed during crawl, no judder)
 // ✅ Curved routes (no plugin; safe)
 // ✅ Per-route curve overrides (optional) + automatic fan-out
+// ✅ Route end-dot markers + tiny hover tooltip
 // ==============================
 
 const periodRange = document.getElementById("periodRange");
@@ -52,6 +53,12 @@ function escapeHtml(s) {
 
 function initMap() {
   map = L.map("map", { scrollWheelZoom: false }).setView([41.5, 18], 4);
+
+  // ✅ Pane for route end-dots (above route lines)
+  if (!map.getPane("routeEndsPane")) {
+    map.createPane("routeEndsPane");
+    map.getPane("routeEndsPane").style.zIndex = 450;
+  }
 
   // ✅ Clean, label-free basemap (CARTO Light - No Labels)
   // This removes city/place labels and keeps a quiet background.
@@ -187,6 +194,29 @@ function fadeOutLayers(markersLayer, routesLayer, durationMs = 220) {
 function fadeInMarker(marker, targetFillOpacity, durationMs = 450) {
   marker.setStyle({ fillOpacity: 0, opacity: 0 });
   animateStyle(marker, { fillOpacity: 0, opacity: 0 }, { fillOpacity: targetFillOpacity, opacity: 1 }, durationMs);
+}
+
+// ===== Route end-dot helper =====
+function addRouteEndDot({ lat, lng, color, tooltipHtml }) {
+  const dot = L.circleMarker([lat, lng], {
+    pane: "routeEndsPane",
+    radius: 3,         // ✅ much smaller than object dots
+    weight: 0,
+    opacity: 1,
+    fillColor: color,
+    fillOpacity: 1,
+    interactive: true
+  });
+
+  dot.bindTooltip(tooltipHtml, {
+    direction: "top",
+    offset: [0, -6],
+    opacity: 1,
+    className: "route-end-tooltip",
+    sticky: false
+  });
+
+  return dot;
 }
 
 // ===== Curved route helpers (NO plugin) =====
@@ -449,7 +479,9 @@ function drawForPeriod(periodIndex) {
         const to = L.latLng(Number(r.toLat), Number(r.toLng));
         if (!Number.isFinite(from.lat) || !Number.isFinite(from.lng) || !Number.isFinite(to.lat) || !Number.isFinite(to.lng)) continue;
 
-        // ✅ NEW: per-route curve overrides (optional) + automatic fan-out
+        const rCol = routeColor(r.influence);
+
+        // ✅ per-route curve overrides (optional) + automatic fan-out
         const c = r.curve || {};
         const autoSide = (routeIndex % 2 === 0) ? 1 : -1;
 
@@ -460,11 +492,11 @@ function drawForPeriod(periodIndex) {
           side:     (c.side === 1 || c.side === -1) ? c.side : autoSide
         };
 
-        // ✅ CHANGED: curved points + curved crawl
+        // curved points + curved crawl
         const curvePts = buildCurvedPoints(from, to, 28, curveOpts);
 
         const routeLine = L.polyline(curvePts.slice(0, 2), {
-          color: routeColor(r.influence),
+          color: rCol,
           weight: 3,
           opacity: 0.9,
           dashArray: "6 8"
@@ -476,6 +508,26 @@ function drawForPeriod(periodIndex) {
           delayMs: routeIndex * 200,
           token
         });
+
+        // ✅ Route end-dot (tiny, same colour as route)
+        // Optional JSON: r.endNote (very short)
+        const endLabel = escapeHtml(r.toLabel || "Destination");
+        const endNoteRaw = String(r.endNote || "").trim();
+        const endNote = endNoteRaw ? escapeHtml(endNoteRaw) : "";
+
+        const tipHtml = `
+          <div class="routeTip">
+            <div class="routeTip__loc">${endLabel}</div>
+            ${endNote ? `<div class="routeTip__txt">${endNote}</div>` : ""}
+          </div>
+        `;
+
+        addRouteEndDot({
+          lat: to.lat,
+          lng: to.lng,
+          color: rCol,
+          tooltipHtml: tipHtml
+        }).addTo(routesLayer);
 
         routeIndex++;
       }
