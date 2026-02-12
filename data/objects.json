@@ -35,7 +35,8 @@
         "toLng": 31.26,
         "influence": "commerce",
         "toLabel": "Cairo",
-        "curve": { "strength": 0, "min": 0, "side": 1 }
+        "curve": { "strength": 0, "min": 0, "side": 1 },
+        "endNote": "Add text here"
       }
     ]
   },
