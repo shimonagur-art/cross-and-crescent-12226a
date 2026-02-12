@@ -313,6 +313,21 @@ body {
   max-width: 160px;
 }
 
+/* ================= Route end marker (small rounded square) ================= */
+
+.route-end-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.route-end-square {
+  display: block;
+  width: 11px;
+  height: 11px;
+  border-radius: 4px; /* rounded corners */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+}
+
 /* ================= Right panel image grid ================= */
 
 .panel-images {
@@ -395,6 +410,13 @@ body {
   .routeTip__txt {
     font-size: 10px;
     max-width: 140px;
+  }
+
+  /* Slightly smaller end marker on mobile */
+  .route-end-square {
+    width: 10px;
+    height: 10px;
+    border-radius: 4px;
   }
 
   .panel-images {
