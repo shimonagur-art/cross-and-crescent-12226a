@@ -315,7 +315,7 @@
     "routes": [
       {
         "toLat": 31.8969,
-        "toLng": 35.0094,
+        "toLng": 35.0004,
         "influence": "conquest",
         "toLabel": "Jerusalem"
       }
