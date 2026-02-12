@@ -105,7 +105,7 @@
       {
         "label": "Jerusalem",
         "lat": 31.783,
-        "lng": 35.23
+        "lng": 35.35
       }
     ],
     "routes": []
@@ -318,7 +318,7 @@
     "routes": [
       {
         "toLat": 31.8969,
-        "toLng": 35.0094,
+        "toLng": 34.85,
         "influence": "conquest",
         "toLabel": "Jerusalem",
         "endNote": "Add text here"
