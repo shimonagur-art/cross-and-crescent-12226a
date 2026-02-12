@@ -75,7 +75,8 @@
         "toLng": 31.26,
         "influence": "commerce",
         "toLabel": "Middle East",
-        "curve": { "strength": 0, "min": 0, "side": 1 }
+        "curve": { "strength": 0, "min": 0, "side": 1 },
+        "endNote": "Add text here"
       }
     ]
   },
@@ -177,7 +178,8 @@
         "influence": "conquest",
         "toLabel": "Venice",
         "periods": [3],
-        "curve": { "strength": 0, "min": 0, "side": 1 }
+        "curve": { "strength": 0, "min": 0, "side": 1 },
+        "endNote": "Add text here"
       }
     ]
   },
@@ -318,7 +320,8 @@
         "toLat": 31.8969,
         "toLng": 35.0094,
         "influence": "conquest",
-        "toLabel": "Jerusalem"
+        "toLabel": "Jerusalem",
+        "endNote": "Add text here"
       }
     ]
   },
@@ -393,7 +396,8 @@
         "toLat": 46.2276,
         "toLng": 2.2137,
         "influence": "culture",
-        "toLabel": "France"
+        "toLabel": "France",
+        "endNote": "Add text here"
       }
     ]
   },
@@ -472,7 +476,8 @@
         "toLat": 31.8969,
         "toLng": 35.0094,
         "influence": "commerce",
-        "toLabel": "Jerusalem"
+        "toLabel": "Jerusalem",
+        "endNote": "Add text here"
       }
     ]
   },
@@ -517,13 +522,15 @@
         "toLat": 52.4862,
         "toLng": -1.8904,
         "influence": "commerce",
-        "toLabel": "Birmingham"
+        "toLabel": "Birmingham",
+        "endNote": "Add text here"
       },
       {
         "toLat": 48.8566,
         "toLng": 2.3522,
         "influence": "Culture",
-        "toLabel": "Paris"
+        "toLabel": "Paris",
+        "endNote": "Add text here"
       }
     ]
   },
