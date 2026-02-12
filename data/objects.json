@@ -173,8 +173,8 @@
     ],
     "routes": [
       {
-        "toLat": 45.10,
-        "toLng": 12.80,
+        "toLat": 45.00,
+        "toLng": 12.99,
         "influence": "conquest",
         "toLabel": "Venice",
         "periods": [3],
